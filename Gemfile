@@ -19,6 +19,8 @@ gem "bootsnap", require: false
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "rspec-rails"
+  gem "erb_lint", require: false
+  gem "standard", require: false
 end
 
 group :development do
