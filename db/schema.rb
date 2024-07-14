@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_13_155915) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_14_063736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,6 +19,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_155915) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "status", default: "open", null: false
+    t.string "job_type", default: "full_time", null: false
+    t.string "location"
+    t.uuid "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_jobs_on_account_id"
+    t.index ["job_type"], name: "index_jobs_on_job_type"
+    t.index ["status"], name: "index_jobs_on_status"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -37,5 +50,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_155915) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "jobs", "accounts"
   add_foreign_key "users", "accounts"
 end
