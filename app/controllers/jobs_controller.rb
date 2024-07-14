@@ -1,4 +1,5 @@
 class JobsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_job, only: %i[ show edit update destroy ]
 
   # GET /jobs or /jobs.json
@@ -22,15 +23,14 @@ class JobsController < ApplicationController
   # POST /jobs or /jobs.json
   def create
     @job = Job.new(job_params)
+    @job.account = current_user.account
 
-    respond_to do |format|
-      if @job.save
-        format.html { redirect_to job_url(@job), notice: "Job was successfully created." }
-        format.json { render :show, status: :created, location: @job }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
-      end
+    # @job = current_user.account.jobs.new(job_param)
+
+    if @job.save
+      redirect_to @job, notice: "Job was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
