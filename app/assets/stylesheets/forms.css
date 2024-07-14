@@ -20,7 +20,7 @@
   @apply block font-medium text-gray-700 cursor-pointer;
 }
 .form-group input, .form-group select {
-  @apply appearance-none w-full max-w-prose bg-white py-2 px-4 text-gray-700 border rounded-sm focus:ring-1 focus:ring-blue-300 focus:border-blue-300;
+  @apply appearance-none w-full max-w-prose bg-white text-gray-700 border-gray-200 rounded-sm focus:ring-1 focus:ring-blue-300 focus:border-blue-300;
 }
 .form-group label.is-invalid {
   @apply text-red-500;
