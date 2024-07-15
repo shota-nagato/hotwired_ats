@@ -29,6 +29,9 @@ RSpec.describe "jobs", type: :system do
 
         expect(page).to have_current_path jobs_path
         expect(page).to have_content "job01"
+
+        job = Job.last
+        expect(job.account).to eq(user.account)
       end
     end
   end
