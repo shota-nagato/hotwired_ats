@@ -29,10 +29,7 @@ class JobsController < ApplicationController
 
   # POST /jobs or /jobs.json
   def create
-    @job = Job.new(job_params)
-    @job.account = current_user.account
-
-    # @job = current_user.account.jobs.new(job_param)
+    @job = current_user.account.jobs.new(job_params)
 
     if @job.save
       html = render_to_string(partial: "job", locals: {job: @job})
