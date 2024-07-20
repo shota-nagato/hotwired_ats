@@ -1,5 +1,5 @@
 class ApplicantsController < ApplicationController
-  before_action :set_applicant, only: %i[ show edit update destroy change_stage ]
+  before_action :set_applicant, only: %i[show edit update destroy change_stage]
   before_action :authenticate_user!
 
   def change_stage
@@ -18,7 +18,7 @@ class ApplicantsController < ApplicationController
 
   # GET /applicants/new
   def new
-    html = render_to_string(partial: "form", locals: { applicant: Applicant.new })
+    html = render_to_string(partial: "form", locals: {applicant: Applicant.new})
     render operations: cable_car
       .inner_html("#slideover-content", html: html)
       .text_content("#slideover-header", text: "Add an applicant")
@@ -32,14 +32,14 @@ class ApplicantsController < ApplicationController
   def create
     @applicant = Applicant.new(applicant_params)
     if @applicant.save
-      html = render_to_string(partial: 'card', locals: { applicant: @applicant })
+      html = render_to_string(partial: "card", locals: {applicant: @applicant})
       render operations: cable_car
         .prepend("#applicants-#{@applicant.stage}", html: html)
-        .dispatch_event(name: 'submit:success')
+        .dispatch_event(name: "submit:success")
     else
-      html = render_to_string(partial: 'form', locals: { applicant: @applicant })
+      html = render_to_string(partial: "form", locals: {applicant: @applicant})
       render operations: cable_car
-        .inner_html('#applicant-form', html: html), status: :unprocessable_entity
+        .inner_html("#applicant-form", html: html), status: :unprocessable_entity
     end
   end
 
@@ -67,13 +67,14 @@ class ApplicantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_applicant
-      @applicant = Applicant.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def applicant_params
-      params.require(:applicant).permit(:first_name, :last_name, :email, :phone, :stage, :status, :job_id, :resume)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_applicant
+    @applicant = Applicant.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def applicant_params
+    params.require(:applicant).permit(:first_name, :last_name, :email, :phone, :stage, :status, :job_id, :resume)
+  end
 end
